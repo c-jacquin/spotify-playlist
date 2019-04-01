@@ -1,34 +1,33 @@
 import Page from './page';
-import { Playlist } from './types';
+import { Playlist, SpotifyPlaylistJSON } from './types';
 
 class PlaylistPage extends Page {
   constructor(url: string) {
     super(`https://open.spotify.com${url}`);
   }
 
-  private extractCoverUrl(style: string): string {
-    return style.split(')')[0].split('//')[1];
-  }
-
   async get(): Promise<Playlist> {
-    const imageElement = await this.getElement('.cover-art-image');
-    const elements = await this.getElements('.track-name-wrapper');
+    const { name, description, tracks, images } = await this.getSpotifyEntityJSON<
+      SpotifyPlaylistJSON
+    >();
 
     return {
-      name: '',
-      cover: this.extractCoverUrl(imageElement.attr('style')),
-      tracks: elements.map(elem => {
-        return {
-          name: this.getText(elem, '.track-name'),
-          artist: {
-            name: this.getText(elem, '.tracklist-row__artist-name-link')
-          },
-          album: {
-            name: this.getText(elem, '.tracklist-row__album-name-link')
-          },
-        }
-      }),
-    }
+      name,
+      description,
+      cover: images,
+      tracks: tracks.items.map(({ track }) => ({
+        name: track.name,
+        href: track.href,
+        artists: track.artists.map(({ name }) => ({
+          name,
+        })),
+        album: {
+          name: track.album.name,
+          cover: track.album.images,
+          date: track.album.release_date,
+        },
+      })),
+    };
   }
 }
 

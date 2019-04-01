@@ -1,19 +1,26 @@
+import { SpotifyImage } from './spotify';
+
 export interface Artist {
   name: string;
 }
 
 export interface Album {
   name: string;
+  cover: SpotifyImage[];
 }
 
 export interface Track {
   name: string;
-  artist: Artist;
+  href: string;
+  artists: Artist[];
   album: Album;
 }
 
 export interface Playlist {
   name: string;
-  cover: string;
+  description: string;
+  cover: SpotifyImage[];
   tracks: Track[];
 }
+
+export * from './spotify';

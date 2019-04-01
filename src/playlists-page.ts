@@ -1,6 +1,6 @@
 import Page from './page';
 import PlaylistPage from './playlist-page';
-import { Playlist } from './types';
+import { Playlist, SpotifyJSON } from './types';
 
 class PlaylistsPage extends Page {
   constructor() {
@@ -8,9 +8,15 @@ class PlaylistsPage extends Page {
   }
 
   async getPlaylistList(): Promise<Playlist[]> {
-    const elements = await this.getElements('a.cover.entity-type-playlist');
+    const spotifyJson = await this.getSpotifyEntityJSON<SpotifyJSON>();
 
-    return Promise.all(elements.map(elem => new PlaylistPage(elem.attr('href')).get()));
+    return Promise.all(
+      spotifyJson.content.items
+        .reduce((acc, item) => [...acc, ...item.content.items], [] as any[])
+        .map(({ id }) => id)
+        .filter(Boolean)
+        .map(id => new PlaylistPage(`/playlist/${id}`).get()),
+    );
   }
 }
 

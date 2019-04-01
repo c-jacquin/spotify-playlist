@@ -2,6 +2,8 @@ import 'isomorphic-fetch';
 import PlaylistsPage from './playlists-page';
 import { Playlist } from './types';
 
+import fs from 'fs-extra';
+
 class SpotifyPlaylist {
   playlistsPage = new PlaylistsPage();
 
@@ -11,13 +13,3 @@ class SpotifyPlaylist {
 }
 
 export default SpotifyPlaylist;
-
-(async () => {
-  const playlists = await new SpotifyPlaylist().get()
-
-  playlists.forEach(({ cover, name, tracks }) => {
-    console.log('Playlist => ', name);
-    console.log('cover ', cover);
-    console.log('tracks ', tracks);
-  });
-})()
