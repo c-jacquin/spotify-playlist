@@ -1,14 +1,10 @@
-import DummyClass from "../src/spotify-playlist"
+import PlaylistsPage from '../src/playlists-page';
 
 /**
- * Dummy test
+ * PlaylistsPage test
  */
-describe("Dummy test", () => {
-  it("works if true is truthy", () => {
-    expect(true).toBeTruthy()
-  })
-
-  it("DummyClass is instantiable", () => {
-    expect(new DummyClass()).toBeInstanceOf(DummyClass)
-  })
-})
+describe('PlaylistsPage', () => {
+  it('PlaylistsPage is instantiable', () => {
+    expect(new PlaylistsPage()).toBeInstanceOf(PlaylistsPage);
+  });
+});

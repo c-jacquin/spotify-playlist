@@ -24,8 +24,5 @@
   },
   "collectCoverageFrom": [
     "src/*.{js,ts}"
-  ],
-  "setupFilesAfterEnv": [
-    "./test/mock/audio-api.ts"
   ]
 }
